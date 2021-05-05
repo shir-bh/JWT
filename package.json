@@ -1,0 +1,29 @@
+{
+  "name": "express-crud-mongo-esm-jwt",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon -r dotenv/config ./server/api.mjs"
+  },
+  "keywords": [],
+  "author": "Yariv Gilad <yariv.gilad@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "@ajar/marker": "^1.2.3",
+    "@hapi/joi": "^17.1.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.17.1",
+    "joi": "^17.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.21",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.2.5"
+  }
+}
