@@ -19,12 +19,14 @@ router.post(
       throw new Error(error);
     } else {
       console.log(req.body);
-      const user_current = await connection.query(
+      const [user_current] = await connection.query(
         `INSERT INTO users (first_name, last_name, email) VALUES ("${req.body.first_name}", "${req.body.last_name}", "${req.body.email}");`
       );
-      const user = await connection.query(
-        `SELECT * FROM users WHERE id='${user_current.id}'`
+      console.log({ user_current });
+      const [user] = await connection.query(
+        `SELECT * FROM users WHERE email='${req.body.email}'`
       );
+      console.log({ user });
       res.status(200).json(user);
     }
   })
@@ -33,7 +35,7 @@ router.post(
 router.get(
   "/",
   raw(async (req, res) => {
-    const users = await connection.query("SELECT * FROM users;");
+    const [users] = await connection.query("SELECT * FROM users;");
     res.status(200).json(users);
   })
 );
@@ -54,10 +56,10 @@ router.get(
 router.get(
   "/:id",
   raw(async (req, res) => {
-    const user = await connection.query(
+    const [[user]] = await connection.query(
       `SELECT * FROM users WHERE id = ${req.params.id};`
     );
-    res.status(200).json(user[0][0]);
+    res.status(200).json(user);
   })
 );
 

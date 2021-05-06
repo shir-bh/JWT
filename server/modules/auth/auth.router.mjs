@@ -44,12 +44,12 @@ router.post(
     };
     // create a user
     // const created_user = await user_model.create(user_data);
-    const user = await connection.query(
+    const [user] = await connection.query(
       `INSERT INTO users (first_name, last_name, email,password) VALUES ("${user_data.first_name}", "${user_data.last_name}", "${user_data.email}","${user_data.password}");`
     );
     console.log(user.id);
-    const created_user = await connection.query(
-      `SELECT * FROM users WHERE id = '${user.id}';`
+    const [[created_user]] = await connection.query(
+      `SELECT * FROM users WHERE email= '${req.body.email}';`
     );
     log.obj(created_user, "register, created_user:");
 
@@ -111,16 +111,19 @@ router.get(
     return res.status(200).json(false_response);
   })
 );
-
 router.get(
   "/me",
   verify_token,
   raw(async (req, res) => {
-    // const user = await user_model.findById(req.user_id);
-    const user = await connection.query(`SELECT * FROM users WHERE id=${id};`);
-    if (!user) return res.status(404).json({ message: "No user found." });
-    res.status(200).json(user);
+    const [rows, fields] = await connection.query(
+      `SELECT * FROM data WHERE id="${req.user_id}"; `
+    );
+    if (rows.length === 0)
+      return res.status(404).json({ message: "No user found." });
+    res.status(200).json(rows);
   })
 );
+
+
 
 export default router;
